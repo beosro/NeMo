@@ -73,16 +73,16 @@ parser.add_argument("--task_name", default="dstc8_single_domain", type=str,
 parser.add_argument("--data_dir", type=str, required=True,
                     help="Directory for the downloaded DSTC8 data, which contains the dialogue files"
                     " and schema files of all datasets (eg train, dev)")
-parser.add_argument("--run_mode", default="train", type=str,
-                    choices=["train", "predict"],
-                    help="The mode to run the script in.")
+# parser.add_argument("--run_mode", default="train", type=str,
+#                     choices=["train", "predict"],
+#                     help="The mode to run the script in.")
 parser.add_argument("--work_dir", type=str, default="output/SGD",
                     help="The output directory where the model checkpoints will be written.")
 parser.add_argument("--schema_embedding_dir", type=str, required=True,
                     help="Directory where .npy file for embedding of entities (slots, values,"
                     " intents) in the dataset_split's schema are stored.")
 parser.add_argument("--overwrite_schema_emb_files", action="store_true",
-                    help="Whether to generate a new Tf.record file saving the dialogue examples.")
+                    help="Whether to generate a new file saving the dialogue examples.")
 parser.add_argument("--dialogues_example_dir", type=str, required=True,
                     help="Directory where preprocessed DSTC8 dialogues are stored.")
 parser.add_argument("--overwrite_dial_files", action="store_true",
@@ -289,7 +289,7 @@ train_callback = nemo.core.SimpleLossLoggerCallback(
     print_func=lambda x: nemo.logging.info("Loss: {:.3f}".format(x[0].item())),
     get_tb_values=lambda x: [["loss", x[0]]],
     tb_writer=nf.tb_writer,
-    step_freq=args.ckpt_save_freq)
+    step_freq=min(steps_per_epoch, args.ckpt_save_freq))
 
 
 # we'll write predictions to file in DSTC8 format during evaluation callback

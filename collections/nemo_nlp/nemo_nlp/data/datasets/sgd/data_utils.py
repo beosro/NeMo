@@ -53,6 +53,11 @@ STATUS_ACTIVE = 1
 STATUS_DONTCARE = 2
 
 FILE_RANGES = {
+    "DEBUG": {
+        "train": range(1, 2),
+        "dev": range(1, 2),
+        "test": range(1, 2)
+    },
     "dstc8_single_domain": {
         "train": range(1, 44),
         "dev": range(1, 8),
